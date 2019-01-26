@@ -10,7 +10,7 @@ namespace MyAlgorithmStudy01
     {
         static void Main(string[] args)
         {
-            var t = new 定容字符串栈();
+            var t = new 下压栈();
             t.Test01();
         }
     }
