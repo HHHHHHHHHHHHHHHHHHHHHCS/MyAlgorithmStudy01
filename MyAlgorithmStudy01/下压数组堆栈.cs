@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyAlgorithmStudy01
 {
-    public class 下压栈
+    public class 下压数组堆栈
     {
         public void Test01()
         {
@@ -25,7 +25,7 @@ namespace MyAlgorithmStudy01
             }
         }
 
-        private class MyLIFO<T> :IEnumerable
+        private class MyLIFO<T> :IEnumerable<T>
 
         {
             private T[] array;
@@ -71,12 +71,17 @@ namespace MyAlgorithmStudy01
                 return item;
             }
 
-            IEnumerator IEnumerable.GetEnumerator()
+            public IEnumerator<T> GetEnumerator()
             {
                 for (int i = 0; i < N; i++)
                 {
                     yield return array[i];
                 }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
             }
         }
     }

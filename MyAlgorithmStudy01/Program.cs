@@ -10,7 +10,7 @@ namespace MyAlgorithmStudy01
     {
         static void Main(string[] args)
         {
-            var t = new 下压栈();
+            var t = new 先进先出队列();
             t.Test01();
         }
     }
