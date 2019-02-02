@@ -49,6 +49,7 @@
     <Compile Include="下压链表堆栈.cs" />
     <Compile Include="先进先出队列.cs" />
     <Compile Include="定容字符串栈.cs" />
+    <Compile Include="背包.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -10,7 +10,7 @@ namespace MyAlgorithmStudy01
     {
         static void Main(string[] args)
         {
-            var t = new 先进先出队列();
+            var t = new 背包();
             t.Test01();
         }
     }
