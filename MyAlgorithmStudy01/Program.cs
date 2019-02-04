@@ -10,7 +10,7 @@ namespace MyAlgorithmStudy01
     {
         static void Main(string[] args)
         {
-            var t = new 背包();
+            var t = new 点点连接();
             t.Test01();
         }
     }
