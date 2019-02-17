@@ -11,7 +11,7 @@ namespace MyAlgorithmStudy01
         static void Main(string[] args)
         {
             var t = new 排序();
-            t.Test01();
+            t.Test03();
         }
     }
 }

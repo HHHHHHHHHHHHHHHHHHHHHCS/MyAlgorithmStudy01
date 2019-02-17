@@ -8,13 +8,39 @@ namespace MyAlgorithmStudy01
 {
     public class 排序
     {
-        public void Test01()
+        private void TestBase(SortBase s)
         {
             string[] a = new string[]
             {
                 "bed", "bug", "dad", "yes", "zoo", "...", "all", "bad", "yet", "bug"
             };
-            Selection s = new Selection();
+            s.Sort(a);
+            if (!s.IsSorted(a))
+            {
+                Console.WriteLine("排序失败");
+                throw new Exception("排序失败");
+            }
+
+            s.Show(a);
+        }
+
+        public void Test01()
+        {
+            TestBase(new Selection());
+        }
+
+        public void Test02()
+        {
+            TestBase(new Insertion());
+        }
+
+        public void Test03()
+        {
+            String[] a = new String[]
+            {
+                "S","H","E","L","L","S","O","R","T","E","X","A","M","P","L","E"
+            };
+            SortBase s = new Shell();
             s.Sort(a);
             if (!s.IsSorted(a))
             {
@@ -65,6 +91,9 @@ namespace MyAlgorithmStudy01
             }
         }
 
+        /// <summary>
+        /// 选择排序
+        /// </summary>
         private class Selection : SortBase
         {
             public override void Sort(IComparable[] a)
@@ -82,6 +111,52 @@ namespace MyAlgorithmStudy01
                     }
                     Swap(a, i, min);
 
+                }
+            }
+        }
+
+        /// <summary>
+        /// 插入排序
+        /// </summary>
+        private class Insertion:SortBase
+        {
+            public override void Sort(IComparable[] a)
+            {
+                int n = a.Length;
+                for (int i = 1; i < n; i++)
+                {
+                    for (int j = i; j > 0 && Less(a[j], a[j - 1]); j--)
+                    {
+                        Swap(a, j, j - 1);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 希尔排序
+        /// </summary>
+        private class Shell : SortBase
+        {
+            public override void Sort(IComparable[] a)
+            {
+                int n = a.Length;
+                int h = 1;//h为步长,可以随意调节,下面的/3要记得,这里的基础步长为三分之一
+                while (h < n / 3)
+                {
+                    h = 3 * h + 1;//1,4,13,40,121,364,1093,...
+                }
+
+                while (h >= 1)
+                {
+                    for (int i = h; i < n; i++)
+                    {
+                        for (int j = i; j >= h && Less(a[j], a[j - h]); j -= h)
+                        {
+                            Swap(a, j, j - h);
+                        }
+                    }
+                    h /= 3;
                 }
             }
         }
