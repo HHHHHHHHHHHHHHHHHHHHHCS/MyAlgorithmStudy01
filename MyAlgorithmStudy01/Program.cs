@@ -12,6 +12,7 @@ namespace MyAlgorithmStudy01
         {
             var t = new 排序();
             t.Test03();
+            t.Test05();
         }
     }
 }

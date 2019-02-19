@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,9 +39,43 @@ namespace MyAlgorithmStudy01
         {
             String[] a = new String[]
             {
-                "S","H","E","L","L","S","O","R","T","E","X","A","M","P","L","E"
+                "S", "H", "E", "L", "L", "S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"
             };
             SortBase s = new Shell();
+            s.Sort(a);
+            if (!s.IsSorted(a))
+            {
+                Console.WriteLine("排序失败");
+                throw new Exception("排序失败");
+            }
+
+            s.Show(a);
+        }
+
+        public void Test04()
+        {
+            String[] a = new String[]
+            {
+                "S", "H", "E", "L", "L", "S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"
+            };
+            SortBase s = new UpToDownMerge();
+            s.Sort(a);
+            if (!s.IsSorted(a))
+            {
+                Console.WriteLine("排序失败");
+                throw new Exception("排序失败");
+            }
+
+            s.Show(a);
+        }
+
+        public void Test05()
+        {
+            String[] a = new String[]
+            {
+                "S", "H", "E", "L", "L", "S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"
+            };
+            SortBase s = new DownToUpMerge();
             s.Sort(a);
             if (!s.IsSorted(a))
             {
@@ -109,8 +144,8 @@ namespace MyAlgorithmStudy01
                             min = j;
                         }
                     }
-                    Swap(a, i, min);
 
+                    Swap(a, i, min);
                 }
             }
         }
@@ -118,7 +153,7 @@ namespace MyAlgorithmStudy01
         /// <summary>
         /// 插入排序
         /// </summary>
-        private class Insertion:SortBase
+        private class Insertion : SortBase
         {
             public override void Sort(IComparable[] a)
             {
@@ -141,10 +176,10 @@ namespace MyAlgorithmStudy01
             public override void Sort(IComparable[] a)
             {
                 int n = a.Length;
-                int h = 1;//h为步长,可以随意调节,下面的/3要记得,这里的基础步长为三分之一
+                int h = 1; //h为步长,可以随意调节,下面的/3要记得,这里的基础步长为三分之一
                 while (h < n / 3)
                 {
-                    h = 3 * h + 1;//1,4,13,40,121,364,1093,...
+                    h = 3 * h + 1; //1,4,13,40,121,364,1093,...
                 }
 
                 while (h >= 1)
@@ -156,7 +191,93 @@ namespace MyAlgorithmStudy01
                             Swap(a, j, j - h);
                         }
                     }
+
                     h /= 3;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 归并排序基类
+        /// </summary>
+        private abstract class MergeBase : SortBase
+        {
+            public IComparable[] aux;
+
+            public override void Sort(IComparable[] a)
+            {
+                aux = new IComparable[a.Length];
+                Sort(a, 0, a.Length - 1);
+            }
+
+            public virtual void Sort(IComparable[] a, int lo, int hi)
+            {
+            }
+
+            public void Merge(IComparable[] a, int lo, int mid, int hi)
+            {
+                int i = lo, j = mid + 1;
+                for (int k = lo; k <= hi; k++)
+                {
+                    aux[k] = a[k];
+                }
+
+                for (int k = lo; k <= hi; k++)
+                {
+                    if (i > mid)
+                    {
+                        a[k] = aux[j++];
+                    }
+                    else if (j > hi)
+                    {
+                        a[k] = aux[i++];
+                    }
+                    else if (Less(aux[j], aux[i]))
+                    {
+                        a[k] = aux[j++];
+                    }
+                    else
+                    {
+                        a[k] = aux[i++];
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自顶向下的归并排序
+        /// </summary>
+        private class UpToDownMerge : MergeBase
+        {
+            public override void Sort(IComparable[] a, int lo, int hi)
+            {
+                if (hi <= lo)
+                {
+                    return;
+                }
+
+                int mid = lo + (hi - lo) / 2;
+                Sort(a, lo, mid);
+                Sort(a, mid + 1, hi);
+                Merge(a, lo, mid, hi);
+            }
+        }
+
+        /// <summary>
+        /// 自下而上归并排序
+        /// </summary>
+        private class DownToUpMerge : MergeBase
+        {
+            public override void Sort(IComparable[] a)
+            {
+                int n = a.Length;
+                aux = new IComparable[n];
+                for (int sz = 1; sz < n; sz *= 2)
+                {
+                    for (int lo = 0; lo < n - sz; lo += sz + sz)
+                    {
+                        Merge(a, lo, lo + sz - 1, Math.Min(lo + sz + sz - 1, n - 1));
+                    }
                 }
             }
         }
