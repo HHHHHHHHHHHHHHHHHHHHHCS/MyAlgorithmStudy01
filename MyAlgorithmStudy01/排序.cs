@@ -86,10 +86,31 @@ namespace MyAlgorithmStudy01
             s.Show(a);
         }
 
+        public void Test06()
+        {
+            String[] a = new String[]
+            {
+                "S", "H", "E", "L", "L", "S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"
+            };
+            SortBase s = new QuickBase();
+            s.Sort(a);
+            if (!s.IsSorted(a))
+            {
+                Console.WriteLine("排序失败");
+                throw new Exception("排序失败");
+            }
+
+            s.Show(a);
+        }
+
+        /// <summary>
+        /// 普通排序的基类
+        /// </summary>
         private abstract class SortBase
         {
             public abstract void Sort(IComparable[] a);
 
+            //v<=w = true
             public bool Less(IComparable v, IComparable w)
             {
                 return v.CompareTo(w) < 0;
@@ -279,6 +300,66 @@ namespace MyAlgorithmStudy01
                         Merge(a, lo, lo + sz - 1, Math.Min(lo + sz + sz - 1, n - 1));
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 快速排序的基类
+        /// </summary>
+        private class QuickBase:SortBase
+        {
+            public override void Sort(IComparable[] a)
+            {
+                Sort(a, 0, a.Length - 1);
+            }
+
+            public void Sort(IComparable[] a, int lo, int hi)
+            {
+                if (hi <= lo)
+                {
+                    return;
+                }
+
+                int j = Partition(a, lo, hi);
+                Sort(a, lo, j - 1);
+                Sort(a, j + 1, hi);
+            }
+
+            /// <summary>
+            /// 快速排序切分用
+            /// </summary>
+            public int Partition(IComparable[] a, int lo, int hi)
+            {
+                int i = lo, j = hi + 1;
+                IComparable v = a[lo];
+                while (true)
+                {
+                    while (Less(a[++i], v))
+                    {
+                        if (i == hi)
+                        {
+                            break;
+                        }
+                    }
+
+                    while (Less(v, a[--j]))
+                    {
+                        if (j == lo)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (i >= j)
+                    {
+                        break;
+                    }
+
+                    Swap(a, i, j);
+                }
+
+                Swap(a, lo, j);
+                return j;
             }
         }
     }
