@@ -103,6 +103,23 @@ namespace MyAlgorithmStudy01
             s.Show(a);
         }
 
+        public void Test07()
+        {
+            String[] a = new String[]
+            {
+                "S", "H", "E", "L", "L", "S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"
+            };
+            SortBase s = new Quick3Way();
+            s.Sort(a);
+            if (!s.IsSorted(a))
+            {
+                Console.WriteLine("排序失败");
+                throw new Exception("排序失败");
+            }
+
+            s.Show(a);
+        }
+
         /// <summary>
         /// 普通排序的基类
         /// </summary>
@@ -313,7 +330,7 @@ namespace MyAlgorithmStudy01
                 Sort(a, 0, a.Length - 1);
             }
 
-            public void Sort(IComparable[] a, int lo, int hi)
+            public virtual void Sort(IComparable[] a, int lo, int hi)
             {
                 if (hi <= lo)
                 {
@@ -360,6 +377,43 @@ namespace MyAlgorithmStudy01
 
                 Swap(a, lo, j);
                 return j;
+            }
+        }
+
+        /// <summary>
+        /// 三分快速排序
+        /// 在一样的元素过多的时候可以使用
+        /// </summary>
+        private class Quick3Way: QuickBase
+        {
+            public override void Sort(IComparable[] a, int lo, int hi)
+            {
+                if (hi <= lo)
+                {
+                    return;
+                }
+
+                int lt = lo, i = lo + 1, gt = hi;
+                IComparable v = a[lo];
+                while (i <= gt)
+                {
+                    int cmp = a[i].CompareTo(v);
+                    if (cmp < 0)
+                    {
+                        Swap(a, lt++, i++);
+                    }
+                    else if(cmp>0)
+                    {
+                        Swap(a, i, gt--);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                Sort(a, lo, lt - 1);
+                Sort(a, gt + 1, hi);
             }
         }
     }
