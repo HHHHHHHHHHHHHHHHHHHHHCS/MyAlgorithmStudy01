@@ -45,6 +45,7 @@
     <Compile Include="Dijkstra双栈算数表达式.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="优先队列.cs" />
     <Compile Include="排序.cs" />
     <Compile Include="点点连接.cs" />
     <Compile Include="下压数组堆栈.cs" />
