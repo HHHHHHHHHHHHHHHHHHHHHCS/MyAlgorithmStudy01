@@ -10,9 +10,8 @@ namespace MyAlgorithmStudy01
     {
         static void Main(string[] args)
         {
-            var t = new 排序();
-            t.Test03();
-            t.Test07();
+            var t = new 优先队列();
+            t.Test01();
         }
     }
 }
