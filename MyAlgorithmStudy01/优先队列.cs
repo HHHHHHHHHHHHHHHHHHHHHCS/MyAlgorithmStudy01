@@ -13,11 +13,15 @@ namespace MyAlgorithmStudy01
             PriorityQueue<char> c = new PriorityQueue<char>(20);
 
             c.Push('A', 'B', 'C', 'F', 'G', 'I', 'I', 'Z');
-            c.Push('B', 'D', 'H', 'P', 'Q', 'Q');
-            c.Push('A', 'B', 'E', 'F', 'G', 'N');
+            //c.Push('B', 'D', 'H', 'P', 'Q', 'Q');
+            //c.Push('A', 'B', 'E', 'F', 'G', 'N');
+
+
 
             while (c.Count > 0)
             {
+                c.Foreach(x => Console.Write(x + " "));
+                Console.WriteLine();
                 Console.WriteLine(c.Pop());
             }
         }
@@ -73,17 +77,26 @@ namespace MyAlgorithmStudy01
             {
                 var v = Top();
                 heap[0] = heap[--Count];
-                if (Count > 0) SiftDown(0);
+                if (Count > 0)
+                {
+                    SiftDown(0);
+                }
                 return v;
             }
 
             public T Top()
             {
-                if (Count > 0) return heap[0];
-                throw new InvalidOperationException("优先队列为空");
+                if (Count > 0)
+                {
+                    return heap[0];
+                }
+                else
+                {
+                    throw new InvalidOperationException("优先队列为空");
+                }
             }
 
-            void SiftUp(int n)
+            private void SiftUp(int n)
             {
                 var v = heap[n];
                 for (var n2 = n / 2; n > 0 && comparer.Compare(v, heap[n2]) > 0; n = n2, n2 /= 2)
@@ -94,7 +107,7 @@ namespace MyAlgorithmStudy01
                 heap[n] = v;
             }
 
-            void SiftDown(int n)
+            private void SiftDown(int n)
             {
                 var v = heap[n];
                 for (var n2 = n * 2; n2 < Count; n = n2, n2 *= 2)
@@ -113,6 +126,14 @@ namespace MyAlgorithmStudy01
                 }
 
                 heap[n] = v;
+            }
+
+            public void Foreach(Action<T> act)
+            {
+                for(int i = 0 ;i<Count;i++)
+                {
+                    act(heap[i]);
+                }
             }
         }
 
